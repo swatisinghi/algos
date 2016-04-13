@@ -119,6 +119,8 @@ public class Sorting {
     private void quickSort(int low, int high) {
         if (low < high) {
             int p = partition(low, high);
+            System.out.println("Partition is: " + p);
+            printArray();
             quickSort(low, p -1);
             quickSort(p + 1, high);
         }
