@@ -148,6 +148,46 @@ public class GraphTraversal {
         }
 
     }
+    
+    private boolean consider(int[] row, int[] col, int i, int j, int c, int[][] visit) {
+    	if (visit[i + row[c]][j + col[c]] == 0) {
+	    	System.out.println("[" + (i + row[c]) + "][" + (j + col[c]) + "]" + " = " + this.adj[i + row[c]][j + col[c]]);
+	    	return (this.adj[i + row[c]][j + col[c]] == 1);
+    	}
+    	return false;
+    }
+    
+    private void dfsIsland(int i, int j, int[][] visit) {
+  
+    	visit[i][j] = 1;
+    	int[] row = {-1, -1, -1, 0, 0, 1, 1, 1};
+    	int[] col = {-1, 0, 1, -1, 1, -1, 0, 1};
+    	
+    	for (int c = 0; c < 8; c++) {
+    		if (i + row[c] != -1 && j + col[c] != -1 && i + row[c] != this.vertices && j + col[c] != this.vertices) {
+    			if (consider(row, col, i, j, c, visit)) {    			
+    				dfsIsland(i + row[c], j + col[c], visit);
+    			}
+    		}
+    	}
+    }
+    
+    private int numIsland() {
+    	int numIsland = 0;
+    	int visit[][] = new int[this.vertices][this.vertices];
+  
+    	for (int i = 0; i < this.vertices; i++) {
+    		for (int j = 0; j < this.vertices; j++) {
+    			System.out.println("===== [" + i + "][" + j + "] = " + visit[i][j]);
+    			if (this.adj[i][j] == 1 && visit[i][j] != 1) {
+    				System.out.println("[" + i + "][" + j + "]");
+    				dfsIsland(i, j, visit);
+    				numIsland += 1;
+    			}
+    		}
+    	}
+    	return numIsland;
+    }
 
     public static void main(String args[]) {
 
@@ -159,6 +199,7 @@ public class GraphTraversal {
             System.out.println("3. Topological Sort");
             System.out.println("4. Detect Cycles");
             System.out.println("5. Shortest Path");
+            System.out.println("6. Connected Components in a graph");
             System.out.println("Q. Exit");
             System.out.println("Enter your choice: ");
 
@@ -198,6 +239,9 @@ public class GraphTraversal {
             } else if (ch.equals("5")) {
                 System.out.println("Enter the starting point: ");
                 g.shortestPath(in.nextInt());
+            } else if (ch.equals("6")) {
+                System.out.println("The number of islands are: ");
+                System.out.println(g.numIsland());
             } else {
                 System.exit(0);
             }
