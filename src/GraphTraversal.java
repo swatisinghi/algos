@@ -86,15 +86,17 @@ public class GraphTraversal {
         }
 
         return this.stack;
-
+        	
     }
 
     public void detect(int v) {
         this.visited[v] = 1;
+        System.out.println("adding... " + v);
         this.stack.push(v);
 
         for (int i = 0; i < this.vertices; i++) {
             if (this.adj[v][i] == 1) {
+            	System.out.println("processing... " + v + " -> " + i);
                 if (this.stack.contains(i)) {
                     this.cycle = true;
                 } else if (this.visited[i] == 0) {
@@ -102,6 +104,7 @@ public class GraphTraversal {
                 }
             }
         }
+        System.out.println("removing... " + v);
         this.stack.removeElement(v);
     }
 
@@ -151,7 +154,6 @@ public class GraphTraversal {
     
     private boolean consider(int[] row, int[] col, int i, int j, int c, int[][] visit) {
     	if (visit[i + row[c]][j + col[c]] == 0) {
-	    	System.out.println("[" + (i + row[c]) + "][" + (j + col[c]) + "]" + " = " + this.adj[i + row[c]][j + col[c]]);
 	    	return (this.adj[i + row[c]][j + col[c]] == 1);
     	}
     	return false;
@@ -178,7 +180,6 @@ public class GraphTraversal {
   
     	for (int i = 0; i < this.vertices; i++) {
     		for (int j = 0; j < this.vertices; j++) {
-    			System.out.println("===== [" + i + "][" + j + "] = " + visit[i][j]);
     			if (this.adj[i][j] == 1 && visit[i][j] != 1) {
     				System.out.println("[" + i + "][" + j + "]");
     				dfsIsland(i, j, visit);

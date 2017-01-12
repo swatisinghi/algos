@@ -97,6 +97,56 @@ public class Arrays {
         }
         return pos;
     }
+    
+    private int smallestNumGreaterThan(int low, int high, int k) {
+    	int found = -1;
+    	if (low <= high) {
+    		int mid = (low + high) / 2;
+    		if (arr[mid] == k) {
+    			return arr[mid + 1];
+    		}
+    		else if (k < arr[mid]) {
+    			found = smallestNumGreaterThan(low, mid - 1, k);
+    		} else {
+    			found = smallestNumGreaterThan(mid + 1, high, k);
+    		}
+    	}
+    	return found;
+    }
+    
+    private boolean possibleTraingle(int i, int j, int k) {
+    	return (i + j > k && i + k > j && j + k > i);
+    }
+    
+    private void countTriangles() {
+    	int k = size - 1;
+    	int i = 0;
+    	while (i < k) {
+    		for (int j = i + 1; j < k; j++) {
+	    		while (k > j) {
+	    			if (possibleTraingle(arr[i], arr[j], arr[k])) {
+	        			System.out.println(arr[i] + ", " + arr[j] + ", " + arr[k]);
+	        		}
+	    			k--;
+	    		}
+	    		k = size - 1;
+    		}
+    		i++;
+    		
+    	}
+    }
+    
+    private int arrangeBricks(int n) {
+    	
+    	if (n == 1) {
+    		return 1;
+    	} else if (n == 2) {
+    		return 2;
+    	} else {
+    		return arrangeBricks(n -1) + arrangeBricks(n - 2);
+    	}
+    	
+    }
 
     private void menu() {
         while (true) {
@@ -107,6 +157,9 @@ public class Arrays {
             System.out.println("3. Find 2 numbers that add up to k");
             System.out.println("4. Floor and Cieling in a sorted array");
             System.out.println("5. Binary Search");
+            System.out.println("6. Find the smallest number greater than k in a sorted array");
+            System.out.println("7. Count the number of possible triangles");
+            System.out.println("8. Given a infinite number of bricks of size 1x 2. How many arrangements can be made for wall size 2 x N.");
             System.out.println("Q. Quit");
 
             String ch = in.next();
@@ -118,9 +171,6 @@ public class Arrays {
                 int k = in.nextInt();
                 divide(k);
                 print();
-            } else if (ch.equals("3")) {
-                System.out.println("Enter k: ");
-                findPair(in.nextInt());
             } else if (ch.equals("3")) {
                 System.out.println("Enter k: ");
                 findPair(in.nextInt());
@@ -149,6 +199,15 @@ public class Arrays {
             } else if (ch.equals("5")) {
                 System.out.println("Enter k: ");
                 System.out.println(binarySearch(0, size - 1, in.nextInt()));
+            } else if (ch.equals("6")) {
+                System.out.println("Enter k: ");
+                int res = smallestNumGreaterThan(0, size - 1, in.nextInt());
+                System.out.println("Result: " + res);
+            } else if (ch.equals("7")) {
+                countTriangles();
+            } else if (ch.equals("8")) {
+            	System.out.println("Enter n: ");
+            	System.out.println("Result: " + arrangeBricks(in.nextInt()));
             } else if (ch.equals("Q")) {
                 System.exit(0);
             }
